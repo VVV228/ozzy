@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p id="text"></p>
+	<script>
+		//main();
+		function createMoney()
+		{
+			this.grn = prompt("Гривні: ", 123);
+			this.kop = prompt("Копійки: ", "80");
+			if(parseInt(this.kop) >= 100)
+			{
+				this.kop = (parseInt(this.kop) - 100).toString();	
+				this.grn++;
+			}	
+			Object.defineProperty(this, 'getMoney', {
+				get: function()
+				{
+					return (this.grn + "," + this.kop + " грн");	
+				}				
+			});
+			
+			this.suma = function(money)
+				{
+					var digit = parseInt(this.grn) + parseInt(money.grn);
+					var kop = parseFloat(this.kop) + parseFloat(money.kop);
+					if(kop >= 100)
+					{
+						kop -= 100;	
+						digit++;
+					}	
+					return (digit.toString() + "," + kop.toString() + " грн<br/>");	
+				}
+			this.riznuca = function(money)
+				{
+					var digit = parseInt(this.grn) - parseInt(money.grn);
+					var kop = parseFloat(this.kop) - parseFloat(money.kop);
+					if(kop < 0)
+					{
+						kop += 100;	
+						digit--;
+					}	
+					return (digit.toString() + "," + kop.toString() + " грн<br/>");	
+				}
+			
+			this.dobytoc = function(money)
+				{
+					var digit = parseInt(this.grn) * parseInt(money.grn);
+					var kop = parseFloat(this.kop) * parseFloat(money.kop);
+					if(kop < 0)
+					{
+						kop += 100;	
+						digit--;
+					}	
+					return (digit.toString() + "," + kop.toString() + " грн<br/>");	
+				}
+			this.more = function(money)
+				{
+					if(this.grn > money.grn)
+						return true;
+					else if(parseInt(this.grn) < parseInt(money.grn))
+						return false;
+					else if(parseInt(this.grn) == parseInt(money.grn))					 
+						{
+							if(parseInt(this.kop) > parseInt(money.kop))
+								return true;
+							else if(parseInt(this.kop) < parseInt(money.kop))
+								return false;
+							else
+								return false;
+						}
+				}	
+		}
+		
+		var persone1 = new createMoney();
+		var persone2 = new createMoney();
+		document.getElementById("text").innerHTML += "Person1 has: " + persone1.getMoney + "</br>";
+		document.getElementById("text").innerHTML += "Person2 has: " + persone2.getMoney + "</br>";
+		var result = persone1.suma(persone2);
+		document.getElementById("text").innerHTML += "Suma = " + result;
+		result = persone1.riznuca(persone2);
+		document.getElementById("text").innerHTML += "Riznuca = " + result;
+		if(persone1.more(persone2))
+		{
+			document.getElementById("text").innerHTML += persone1.getMoney + " > " + persone2.getMoney + "</br>";
+		}
+		else
+		{
+			document.getElementById("text").innerHTML += persone1.getMoney + " <= " + persone2.getMoney;
+		}
+	</script>
+</body>
+</html>
